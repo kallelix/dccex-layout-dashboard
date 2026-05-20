@@ -3,6 +3,7 @@
   import LayoutView from './components/LayoutView.svelte';
   import LayoutPicker from './components/LayoutPicker.svelte';
   import SequencePanel from './components/SequencePanel.svelte';
+  import RosterPanel from './components/RosterPanel.svelte';
   import { layoutStore } from './layout/layoutStore.svelte';
 </script>
 
@@ -19,6 +20,7 @@
     </section>
     <aside class="flex w-72 flex-col gap-4 overflow-y-auto rounded border border-slate-800 bg-slate-900 p-3">
       <LayoutPicker />
+      <RosterPanel />
       <SequencePanel sequences={layoutStore.current.sequences} />
     </aside>
   </main>

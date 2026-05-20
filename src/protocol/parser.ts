@@ -23,6 +23,9 @@ export type DccExEvent =
   | { tag: 'route-state'; id: number; state: number }
   | { tag: 'route-caption'; id: number; caption: string }
   | { tag: 'reservation'; id: number; loco: number } // loco = -1 means freed
+  | { tag: 'roster-list'; ids: number[] } // <jR id1 id2 ...>
+  | { tag: 'roster-entry'; id: number; name: string; functions: string } // <jR id "name" "funcs">
+  | { tag: 'startup'; raw: string } // <iDCC-EX V-... > banner, sent when the CS is ready
   | { tag: 'ok' }
   | { tag: 'error'; message: string }
   | { tag: 'unknown'; raw: string };
@@ -88,6 +91,12 @@ export function parseFrame(body: string): DccExEvent {
 
   const head = tokens[0];
 
+  // CS startup banner: <iDCC-EX V-x.x.x / BOARD / SHIELD / ...>. Sent once the
+  // CommandStation is ready to take commands — the cue to fire initial queries.
+  if (head.startsWith('iDCC')) {
+    return { tag: 'startup', raw };
+  }
+
   // Power tag has no space before the digit: <p0>, <p1>, <p1 MAIN>, <p1 JOIN>...
   if (head.length >= 2 && head[0] === 'p' && (head[1] === '0' || head[1] === '1')) {
     const on = head[1] === '1';
@@ -125,6 +134,15 @@ export function parseFrame(body: string): DccExEvent {
         // <jS id loco>   section reservation (loco = -1 means freed).
         // Note: <jR> is the loco roster, not reservations.
         return { tag: 'reservation', id: num(tokens[1]), loco: num(tokens[2]) };
+      }
+      case 'R': {
+        // Loco roster. Two shapes:
+        //   <jR id1 id2 ...>            the list of roster ids
+        //   <jR id "name" "funcmap">    details for one loco (has quotes)
+        if (body.includes('"')) {
+          return { tag: 'roster-entry', id: num(tokens[1]), name: tokens[2] ?? '', functions: tokens[3] ?? '' };
+        }
+        return { tag: 'roster-list', ids: tokens.slice(1).map(num).filter((n) => !Number.isNaN(n)) };
       }
     }
     return { tag: 'unknown', raw };

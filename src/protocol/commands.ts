@@ -10,6 +10,8 @@ export const cmd = {
   listOutputs: (): string => '<Z>',
   listRoutes: (): string => '<JA>',
   listReservations: (): string => '<JS>',
+  listRoster: (): string => '<JR>',
+  rosterEntry: (id: number): string => `<JR ${id}>`,
   queryPower: (): string => '<s>',
 
   // Turnouts: <T id 0|1>  (0 = close, 1 = throw)

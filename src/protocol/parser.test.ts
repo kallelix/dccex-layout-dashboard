@@ -61,6 +61,20 @@ describe('parseFrame', () => {
     expect(parseFrame('jS 3 1234')).toEqual({ tag: 'reservation', id: 3, loco: 1234 });
     expect(parseFrame('jS 3 -1')).toEqual({ tag: 'reservation', id: 3, loco: -1 });
   });
+  it('parses roster list', () => {
+    expect(parseFrame('jR 3 7 11')).toEqual({ tag: 'roster-list', ids: [3, 7, 11] });
+  });
+  it('parses empty roster list', () => {
+    expect(parseFrame('jR')).toEqual({ tag: 'roster-list', ids: [] });
+  });
+  it('parses roster entry with name and functions', () => {
+    expect(parseFrame('jR 3 "BR 103" "Licht/Horn/*Pfeife"')).toEqual({
+      tag: 'roster-entry',
+      id: 3,
+      name: 'BR 103',
+      functions: 'Licht/Horn/*Pfeife',
+    });
+  });
   it('parses block enter/exit', () => {
     expect(parseFrame('K 2 99')).toEqual({ tag: 'block-enter', block: 2, loco: 99 });
     expect(parseFrame('k 2 99')).toEqual({ tag: 'block-exit', block: 2, loco: 99 });
@@ -71,6 +85,12 @@ describe('parseFrame', () => {
     expect(parseFrame('p1 MAIN')).toEqual({ tag: 'power', track: 'MAIN', on: true, joined: false });
     expect(parseFrame('p1 PROG')).toEqual({ tag: 'power', track: 'PROG', on: true, joined: false });
     expect(parseFrame('p1 JOIN')).toEqual({ tag: 'power', track: 'ALL', on: true, joined: true });
+  });
+  it('parses CS startup banner', () => {
+    expect(parseFrame('iDCC-EX V-5.0.7 / MEGA / STANDARD_MOTOR_SHIELD G-9db58c9')).toEqual({
+      tag: 'startup',
+      raw: '<iDCC-EX V-5.0.7 / MEGA / STANDARD_MOTOR_SHIELD G-9db58c9>',
+    });
   });
   it('parses ok and error', () => {
     expect(parseFrame('O')).toEqual({ tag: 'ok' });

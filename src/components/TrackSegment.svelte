@@ -24,7 +24,12 @@
       : (leg.role === 'closed') === turnoutClosed
   );
 
-  const stroke = $derived(reservedBy !== undefined ? '#fbbf24' : segment.stroke ?? '#94a3b8');
+  const stroke = $derived(
+    reservedBy !== undefined ? store.colorForLoco(reservedBy) : segment.stroke ?? '#94a3b8'
+  );
+  const reservedByName = $derived(
+    reservedBy !== undefined ? store.roster.get(reservedBy)?.name ?? `loco ${reservedBy}` : undefined
+  );
 </script>
 
 <path
@@ -37,6 +42,6 @@
   stroke-dasharray={legActive ? undefined : '5 7'}
 >
   {#if reservedBy !== undefined}
-    <title>Section {segment.sectionId} reserved by loco {reservedBy}</title>
+    <title>Section {segment.sectionId} reserviert von {reservedByName}</title>
   {/if}
 </path>
