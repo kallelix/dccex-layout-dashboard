@@ -5,6 +5,7 @@
   import Turnout from './Turnout.svelte';
   import Sensor from './Sensor.svelte';
   import BuildingLight from './BuildingLight.svelte';
+  import Building from './Building.svelte';
 
   let { layout }: { layout: LayoutDocument } = $props();
 
@@ -86,6 +87,11 @@
       <g>
         {#each layout.lights as light (`${light.protocol ?? 'output'}:${light.outputId ?? light.turnoutId}`)}
           <BuildingLight {light} />
+        {/each}
+      </g>
+      <g>
+        {#each layout.buildings ?? [] as building (building.id)}
+          <Building {building} />
         {/each}
       </g>
     </g>

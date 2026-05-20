@@ -18,6 +18,8 @@ export interface LayoutDocument {
   sensors: SensorDef[];
   /** Building / scene lights driven by EX-RAIL Outputs. */
   lights: LightDef[];
+  /** Buildings that group several lights as windows. Optional. */
+  buildings?: BuildingDef[];
   /** Logical sections that group segments for reservation highlighting. */
   sections: SectionDef[];
   /** EX-RAIL routes/sequences exposed as quick-start buttons. */
@@ -85,6 +87,31 @@ export interface LightDef {
   outputId?: number;
   /** Turnout id — required when `protocol` is `'turnout'`. */
   turnoutId?: number;
+}
+
+/** One LED inside a building — a DCC accessory light on the turnout protocol. */
+export interface BuildingLightDef {
+  /** Turnout id (TURNOUTL) — switched via `<T id 0|1>`, state from `<H id state>`. */
+  turnoutId: number;
+  /** Floor / room label, e.g. "EG", "OG1" — shown in the tooltip. */
+  label?: string;
+  /**
+   * Which turnout state means the light is ON (depends on decoder wiring).
+   * `'thrown'` (default) = on at `<T id 1>`; `'closed'` = on at `<T id 0>`.
+   */
+  onState?: 'thrown' | 'closed';
+}
+
+export interface BuildingDef {
+  id: string;
+  label?: string;
+  /** Top-left corner of the building box. */
+  x: number;
+  y: number;
+  /** Window columns; windows fill row by row. Default: all lights in one row. */
+  cols?: number;
+  /** LEDs rendered as windows, in render order (top-left first). */
+  lights: BuildingLightDef[];
 }
 
 export interface SectionDef {

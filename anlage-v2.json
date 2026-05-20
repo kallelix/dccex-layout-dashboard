@@ -58,6 +58,39 @@
   "sensors": [],
   "lights": [],
 
+  "buildings": [
+    {
+      "id": "hbhf", "label": "Hauptbahnhof", "x": 740, "y": 770, "cols": 5,
+      "lights": [
+        { "turnoutId": 16, "label": "EG" },
+        { "turnoutId": 17, "label": "OG1" },
+        { "turnoutId": 18, "label": "Lager" },
+        { "turnoutId": 19, "label": "DG" },
+        { "turnoutId": 20, "label": "OG2" }
+      ]
+    },
+    {
+      "id": "stw", "label": "Stellwerk", "x": 1080, "y": 700, "cols": 1,
+      "lights": [
+        { "turnoutId": 24, "label": "OG" },
+        { "turnoutId": 23, "label": "Treppe" },
+        { "turnoutId": 22, "label": "EG" }
+      ]
+    },
+    {
+      "id": "lager", "label": "Lager", "x": 460, "y": 610, "cols": 1,
+      "lights": [
+        { "turnoutId": 9, "label": "Lager 1", "onState": "closed" }
+      ]
+    },
+    {
+      "id": "cross", "label": "BÜ", "x": 1000, "y": 590, "cols": 1,
+      "lights": [
+        { "turnoutId": 21, "label": "Bahnübergang" }
+      ]
+    }
+  ],
+
   "sections": [
     { "id": 1,  "label": "B1 Hauptstrecke", "segments": ["b1"] },
     { "id": 2,  "label": "B2 HBhf",         "segments": ["b2_west", "b2_east"] },

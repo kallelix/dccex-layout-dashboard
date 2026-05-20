@@ -90,6 +90,30 @@ Alle sieben Arrays sind Pflicht; leere Arrays sind erlaubt.
 
 > Hinweis: Auf dieser Anlage hängen alle Szenenlichter an echten DCC-Adress-Lichtdecodern und sind in der `myAutomation.h` als `TURNOUTL(...)` deklariert — also `protocol: "turnout"`. Siehe [`anlage-v2.json`](../anlage-v2.json).
 
+## `buildings` — Gebäude mit mehreren LEDs
+
+Ein Gebäude bündelt mehrere Lichter (Etagen/Räume) zu **einem** Element: eine Box mit Dach, in der jede LED als **Fenster** erscheint (hell = an, dunkel = aus).
+
+```jsonc
+{
+  "id": "hbhf",                // beliebige, layout-interne id
+  "label": "Hauptbahnhof",     // über dem Dach angezeigt
+  "x": 450,                    // linke obere Ecke der Box
+  "y": 610,
+  "cols": 5,                   // optional — Fenster-Spalten (Default: alle in einer Reihe)
+  "lights": [
+    { "turnoutId": 16, "label": "EG" },
+    { "turnoutId": 17, "label": "OG1" }
+  ]
+}
+```
+
+- Jede LED ist ein **Turnout-Protokoll-Licht** (`TURNOUTL`): geschaltet via `<T turnoutId 0|1>`, Status aus `<H turnoutId state>`.
+- **`onState`** je LED legt fest, welcher Weichenzustand „an" bedeutet (je nach Decoder-Verdrahtung): `"thrown"` (Default) = an bei `<T id 1>`, `"closed"` = an bei `<T id 0>`.
+- **Klick aufs Fenster** schaltet eine LED, **Klick auf Dach/Box** schaltet alle LEDs des Gebäudes (an, wenn alle aus — sonst aus).
+- **`cols`** ordnet die Fenster an: `cols: 1` ergibt einen senkrechten Stapel (z. B. Etagen EG/OG/DG — erste LED oben). Ohne `cols` stehen alle Fenster in einer Reihe.
+- Die Box-Größe ergibt sich automatisch aus Fensterzahl und `cols`.
+
 ## `sections` — Logische Streckenabschnitte
 
 ```jsonc
