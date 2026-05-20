@@ -257,6 +257,16 @@ class DashboardStore {
     this.transport?.send(cmd.killRoute(id));
   }
 
+  /** Force-free one section reservation. CS broadcasts <jS id -1> back. */
+  freeSection(id: number): void {
+    this.transport?.send(cmd.freeSection(id));
+  }
+
+  /** Force-free all section reservations. */
+  freeAllReservations(): void {
+    this.transport?.send(cmd.freeAllSections());
+  }
+
   setPower(on: boolean): void {
     this.transport?.send(on ? cmd.powerOn() : cmd.powerOff());
   }

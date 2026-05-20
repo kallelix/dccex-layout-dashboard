@@ -25,6 +25,11 @@ export const cmd = {
   startRoute: (id: number): string => `</ START ${id}>`,
   killRoute: (id: number): string => `</ KILL ${id}>`,
 
+  // EX-RAIL: force-free a section reservation (or all). setReservation broadcasts
+  // <jS id -1> back, so the dashboard updates itself.
+  freeSection: (id: number): string => `</ FREE ${id}>`,
+  freeAllSections: (): string => '</ FREEALL>',
+
   // Track power
   powerOn: (): string => '<1>',
   powerOff: (): string => '<0>',

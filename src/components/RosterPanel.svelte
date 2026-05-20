@@ -28,9 +28,20 @@
       ></span>
       <div class="flex min-w-0 flex-col">
         <span class="truncate text-sm">{loco.name}</span>
-        <span class="text-xs text-slate-500">
-          #{loco.id}{sections ? ` · belegt ${sections.sort((a, b) => a - b).map((s) => `B${s}`).join(', ')}` : ''}
-        </span>
+        <span class="text-xs text-slate-500">#{loco.id}</span>
+        {#if sections}
+          <div class="mt-1 flex flex-wrap gap-1">
+            {#each [...sections].sort((a, b) => a - b) as s (s)}
+              <button
+                class="rounded bg-slate-700 px-1.5 py-0.5 text-[10px] text-slate-200 hover:bg-rose-700 hover:text-white"
+                title="Section B{s} freigeben"
+                onclick={() => store.freeSection(s)}
+              >
+                B{s} ✕
+              </button>
+            {/each}
+          </div>
+        {/if}
       </div>
     </div>
   {/each}
