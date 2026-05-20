@@ -3,11 +3,25 @@
   import { store } from '../protocol/store.svelte';
 
   let { light }: { light: LightDef } = $props();
-  const on = $derived(store.outputs.get(light.outputId) ?? false);
+
+  const isTurnout = $derived((light.protocol ?? 'output') === 'turnout');
+
+  // Output protocol: on = output state. Turnout protocol (TURNOUTL): on = THROWN,
+  // i.e. store.turnouts holds `closed`, so on = closed === false.
+  const on = $derived(
+    isTurnout
+      ? light.turnoutId !== undefined && store.turnouts.get(light.turnoutId) === false
+      : (light.outputId !== undefined && store.outputs.get(light.outputId)) ?? false
+  );
   const fill = $derived(on ? '#fde047' : '#334155');
+  const id = $derived(isTurnout ? light.turnoutId : light.outputId);
 
   function toggle() {
-    store.toggleOutput(light.outputId);
+    if (isTurnout) {
+      if (light.turnoutId !== undefined) store.toggleTurnout(light.turnoutId);
+    } else if (light.outputId !== undefined) {
+      store.toggleOutput(light.outputId);
+    }
   }
   function onKey(e: KeyboardEvent) {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -27,10 +41,10 @@
     onkeydown={onKey}
     role="button"
     tabindex="0"
-    aria-label={light.label ?? `Toggle output ${light.outputId}`}
+    aria-label={light.label ?? `Toggle light ${id}`}
   />
   {#if light.label}
     <text y="-12" text-anchor="middle" fill="#cbd5e1" font-size="10">{light.label}</text>
   {/if}
-  <title>{light.label ?? `Output ${light.outputId}`}: {on ? 'on' : 'off'}</title>
+  <title>{light.label ?? `Light ${id}`}: {on ? 'on' : 'off'}</title>
 </g>

@@ -29,11 +29,11 @@ describe('frame', () => {
 });
 
 describe('parseFrame', () => {
-  it('parses turnout closed', () => {
-    expect(parseFrame('H 12 1')).toEqual({ tag: 'turnout', id: 12, closed: true });
+  it('parses turnout closed (CS broadcasts 0 for closed)', () => {
+    expect(parseFrame('H 12 0')).toEqual({ tag: 'turnout', id: 12, closed: true });
   });
-  it('parses turnout thrown', () => {
-    expect(parseFrame('H 12 0')).toEqual({ tag: 'turnout', id: 12, closed: false });
+  it('parses turnout thrown (CS broadcasts 1 for thrown)', () => {
+    expect(parseFrame('H 12 1')).toEqual({ tag: 'turnout', id: 12, closed: false });
   });
   it('parses sensor active/inactive', () => {
     expect(parseFrame('Q 42')).toEqual({ tag: 'sensor', id: 42, active: true });
@@ -57,9 +57,9 @@ describe('parseFrame', () => {
   it('parses route caption', () => {
     expect(parseFrame('jB 7 "active"')).toEqual({ tag: 'route-caption', id: 7, caption: 'active' });
   });
-  it('parses reservation', () => {
-    expect(parseFrame('jR 3 1234')).toEqual({ tag: 'reservation', id: 3, loco: 1234 });
-    expect(parseFrame('jR 3 -1')).toEqual({ tag: 'reservation', id: 3, loco: -1 });
+  it('parses reservation (jS, not jR which is roster)', () => {
+    expect(parseFrame('jS 3 1234')).toEqual({ tag: 'reservation', id: 3, loco: 1234 });
+    expect(parseFrame('jS 3 -1')).toEqual({ tag: 'reservation', id: 3, loco: -1 });
   });
   it('parses block enter/exit', () => {
     expect(parseFrame('K 2 99')).toEqual({ tag: 'block-enter', block: 2, loco: 99 });
@@ -94,7 +94,7 @@ describe('StreamParser', () => {
   it('reassembles split frames across chunks', () => {
     const sp = new StreamParser();
     expect(sp.feed('<H 12')).toEqual([]);
-    const events = sp.feed(' 1><Q 5>');
+    const events = sp.feed(' 0><Q 5>');
     expect(events).toEqual([
       { tag: 'turnout', id: 12, closed: true },
       { tag: 'sensor', id: 5, active: true },
@@ -102,7 +102,7 @@ describe('StreamParser', () => {
   });
   it('handles trailing newlines and junk', () => {
     const sp = new StreamParser();
-    const events = sp.feed('\n<H 1 0>\r\n<Q 7>\n');
+    const events = sp.feed('\n<H 1 1>\r\n<Q 7>\n');
     expect(events).toEqual([
       { tag: 'turnout', id: 1, closed: false },
       { tag: 'sensor', id: 7, active: true },

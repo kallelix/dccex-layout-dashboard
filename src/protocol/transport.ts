@@ -64,7 +64,10 @@ export class WebSocketTransport extends BaseTransport {
     this.setState('connecting');
     return new Promise((resolve, reject) => {
       try {
-        this.ws = new WebSocket(this.url);
+        // DCC-EX always echoes back `Sec-WebSocket-Protocol: DCCEX` in its
+        // 101 response (Websockets.cpp). Per RFC 6455 the browser will fail
+        // the connection if we don't request that subprotocol ourselves.
+        this.ws = new WebSocket(this.url, 'DCCEX');
       } catch (e) {
         this.setState('error');
         reject(e);

@@ -2,12 +2,34 @@
   import { store } from '../protocol/store.svelte';
   import { MockTransport, WebSerialTransport, WebSocketTransport } from '../protocol/transport';
 
-  let url = $state('ws://192.168.4.1:2560');
-  let mode: 'mock' | 'ws' | 'serial' = $state('mock');
+  const LS_URL = 'dccex-dashboard-ws-url';
+  const LS_MODE = 'dccex-dashboard-transport-mode';
+
+  function readLs(key: string, fallback: string): string {
+    try {
+      return localStorage.getItem(key) ?? fallback;
+    } catch {
+      return fallback;
+    }
+  }
+  function writeLs(key: string, value: string): void {
+    try {
+      localStorage.setItem(key, value);
+    } catch {
+      // ignore
+    }
+  }
+
+  let url = $state(readLs(LS_URL, 'ws://192.168.4.1:2560'));
+  let mode: 'mock' | 'ws' | 'serial' = $state(
+    (readLs(LS_MODE, 'mock') as 'mock' | 'ws' | 'serial')
+  );
   let error = $state<string | null>(null);
 
   async function connect() {
     error = null;
+    writeLs(LS_MODE, mode);
+    if (mode === 'ws') writeLs(LS_URL, url);
     try {
       const transport =
         mode === 'mock'

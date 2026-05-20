@@ -9,7 +9,7 @@ export const cmd = {
   listSensors: (): string => '<S>',
   listOutputs: (): string => '<Z>',
   listRoutes: (): string => '<JA>',
-  listReservations: (): string => '<JR>',
+  listReservations: (): string => '<JS>',
   queryPower: (): string => '<s>',
 
   // Turnouts: <T id 0|1>  (0 = close, 1 = throw)

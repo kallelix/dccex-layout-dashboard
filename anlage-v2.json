@@ -1,0 +1,77 @@
+{
+  "name": "Anlage (technisch) – Schritt 5: Hafen",
+  "viewBox": "0 0 1280 800",
+
+  "segments": [
+    { "id": "b1",       "path": "M 980 660 L 1140 660 Q 1200 660 1200 600 L 1200 180 Q 1200 120 1140 120 L 940 120", "sectionId": 1, "strokeWidth": 6 },
+    { "id": "b11_east", "path": "M 940 120 L 860 120", "sectionId": 11 },
+    { "id": "b11_west", "path": "M 860 120 L 780 120", "sectionId": 11 },
+    { "id": "b7a",         "path": "M 780 120 L 200 120 Q 140 120 140 180 L 140 300", "sectionId": 8, "stroke": "#64748b" },
+    { "id": "b7b",         "path": "M 140 300 L 140 440", "sectionId": 8, "stroke": "#64748b" },
+    { "id": "w11_w10link", "path": "M 780 120 L 720 160", "sectionId": 7, "stroke": "#64748b" },
+    { "id": "b8a",         "path": "M 720 160 L 220 160 Q 180 160 180 200 L 180 300", "sectionId": 7, "stroke": "#64748b" },
+    { "id": "b8b",         "path": "M 180 300 L 180 400 L 140 440", "sectionId": 7, "stroke": "#64748b" },
+    { "id": "b4",          "path": "M 140 440 L 140 680 Q 140 720 200 720 L 320 720", "sectionId": 4 },
+    { "id": "b12",      "path": "M 320 720 L 400 720", "sectionId": 12 },
+    { "id": "b2_west",  "path": "M 400 720 L 700 720", "sectionId": 2 },
+    { "id": "b2_east",  "path": "M 700 720 L 920 720 L 980 660", "sectionId": 2 },
+
+    { "id": "w1_w2",    "path": "M 980 660 L 800 660" },
+    { "id": "b3",       "path": "M 800 660 L 260 660 Q 220 660 220 620", "sectionId": 3 },
+    { "id": "b5",       "path": "M 220 620 L 220 240 Q 220 200 260 200", "sectionId": 5, "stroke": "#64748b" },
+    { "id": "b6",       "path": "M 260 200 L 660 200 L 720 160", "sectionId": 6, "stroke": "#64748b" },
+
+    { "id": "prog",     "path": "M 400 720 L 450 770 L 720 770", "stroke": "#7c6f5b" },
+
+    { "id": "b13",      "path": "M 860 120 L 740 240 L 660 240", "sectionId": 13 },
+    { "id": "b14",      "path": "M 660 240 L 260 240", "sectionId": 14 },
+
+    { "id": "w2_w8",    "path": "M 800 660 L 640 560" },
+    { "id": "sq_west",  "path": "M 420 560 L 600 560" },
+    { "id": "sq_78",    "path": "M 600 560 L 640 560" },
+    { "id": "sq_89",    "path": "M 640 560 L 760 560" },
+    { "id": "sq_east",  "path": "M 760 560 L 940 560" },
+    { "id": "nq_west",  "path": "M 420 500 L 500 500" },
+    { "id": "nq_mid",   "path": "M 500 500 L 860 500" },
+    { "id": "nq_east",  "path": "M 860 500 L 940 500" },
+    { "id": "w6_trav",  "path": "M 500 500 L 550 530" },
+    { "id": "w7_trav",  "path": "M 550 530 L 600 560" },
+    { "id": "w5_trav",  "path": "M 860 500 L 810 530" },
+    { "id": "w9_trav",  "path": "M 810 530 L 760 560" }
+  ],
+
+  "turnouts": [
+    { "id": 101, "x": 980, "y": 660, "label": "W1",  "root": "b1",   "closed": "b2_east", "thrown": "w1_w2" },
+    { "id": 102, "x": 800, "y": 660, "label": "W2",  "root": "w1_w2", "closed": "w2_w8", "thrown": "b3" },
+    { "id": 103, "x": 400, "y": 720, "label": "W3",  "root": "b12",  "thrown": "b2_west", "closed": "prog" },
+    { "id": 104, "x": 140, "y": 440, "label": "W4",  "root": "b4",   "closed": "b8b", "thrown": "b7b" },
+    { "id": 105, "x": 860, "y": 500, "label": "W5",  "root": "nq_mid", "closed": "nq_east", "thrown": "w5_trav" },
+    { "id": 106, "x": 500, "y": 500, "label": "W6",  "root": "nq_mid", "closed": "w6_trav", "thrown": "nq_west" },
+    { "id": 107, "x": 600, "y": 560, "label": "W7",  "root": "sq_78",  "closed": "sq_west", "thrown": "w7_trav" },
+    { "id": 108, "x": 640, "y": 560, "label": "W8",  "root": "w2_w8",  "closed": "sq_78",   "thrown": "sq_89" },
+    { "id": 109, "x": 760, "y": 560, "label": "W9",  "root": "sq_89",  "closed": "sq_east", "thrown": "w9_trav" },
+    { "id": 110, "x": 720, "y": 160, "label": "W10", "root": "w11_w10link", "closed": "b8a", "thrown": "b6" },
+    { "id": 111, "x": 780, "y": 120, "label": "W11", "root": "b11_west", "thrown": "b7a", "closed": "w11_w10link" },
+    { "id": 112, "x": 860, "y": 120, "label": "W12", "root": "b11_east", "closed": "b13", "thrown": "b11_west" }
+  ],
+
+  "sensors": [],
+  "lights": [],
+
+  "sections": [
+    { "id": 1,  "label": "B1 Hauptstrecke", "segments": ["b1"] },
+    { "id": 2,  "label": "B2 HBhf",         "segments": ["b2_west", "b2_east"] },
+    { "id": 4,  "label": "B4",              "segments": ["b4"] },
+    { "id": 7,  "label": "B7 (Tunnel)",     "segments": ["w11_w10link", "b8a", "b8b"] },
+    { "id": 8,  "label": "B8 (Tunnel)",     "segments": ["b7a", "b7b"] },
+    { "id": 3,  "label": "B3",              "segments": ["b3"] },
+    { "id": 5,  "label": "B5",              "segments": ["b5"] },
+    { "id": 6,  "label": "B6 (Tunnel)",     "segments": ["b6"] },
+    { "id": 11, "label": "B11",             "segments": ["b11_east", "b11_west"] },
+    { "id": 12, "label": "B12",             "segments": ["b12"] },
+    { "id": 13, "label": "B13 Auffahrt Hill", "segments": ["b13"] },
+    { "id": 14, "label": "B14 Bhf Hill",    "segments": ["b14"] }
+  ],
+
+  "sequences": []
+}

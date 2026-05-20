@@ -13,7 +13,7 @@ export interface RouteInfo {
 /**
  * Reactive state hub. One instance per connection; UI components read directly
  * from these `$state` fields. Reservations are seeded empty — they populate
- * once the CS emits <jR> broadcasts (proposed in our patch to EXRAIL2.cpp).
+ * once the CS emits <jS> broadcasts (our patch to EXRAIL2.cpp / CommandDistributor).
  */
 class DashboardStore {
   transport: Transport | null = $state(null);

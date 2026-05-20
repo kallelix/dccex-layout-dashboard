@@ -100,7 +100,7 @@ export function parseFrame(body: string): DccExEvent {
     return { tag: 'power', track: 'ALL', on, joined: false };
   }
 
-  // Two-letter EX-RAIL tags: jA, jB, jR ...
+  // Two-letter EX-RAIL tags: jA, jB, jS ...
   if (head.length === 2 && head[0] === 'j') {
     switch (head[1]) {
       case 'A': {
@@ -121,8 +121,9 @@ export function parseFrame(body: string): DccExEvent {
         }
         return { tag: 'route-caption', id, caption: second };
       }
-      case 'R': {
-        // <jR id loco>   (proposed reservation broadcast; loco = -1 means freed)
+      case 'S': {
+        // <jS id loco>   section reservation (loco = -1 means freed).
+        // Note: <jR> is the loco roster, not reservations.
         return { tag: 'reservation', id: num(tokens[1]), loco: num(tokens[2]) };
       }
     }
@@ -131,8 +132,9 @@ export function parseFrame(body: string): DccExEvent {
 
   switch (head) {
     case 'H': {
-      // <H id closed>
-      return { tag: 'turnout', id: num(tokens[1]), closed: tokens[2] === '1' || tokens[2] === 'C' };
+      // <H id state>  — DCC++ classic convention: 1=thrown, 0=closed.
+      // CommandDistributor.cpp emits `!isClosed` here.
+      return { tag: 'turnout', id: num(tokens[1]), closed: tokens[2] === '0' };
     }
     case 'Q':
       return { tag: 'sensor', id: num(tokens[1]), active: true };

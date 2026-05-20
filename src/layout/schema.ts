@@ -43,6 +43,17 @@ export interface TurnoutDef {
   /** Rotation in degrees. */
   rotation?: number;
   label?: string;
+  /**
+   * Topology (all optional, all reference `segments[].id`):
+   * which track leg meets the points (`root`) and which legs the turnout
+   * routes onto when CLOSED (`<T id 0>`) vs THROWN (`<T id 1>`). When set,
+   * the rendered leg that is NOT currently selected is dimmed, so the set
+   * route is visible. CLOSED/THROWN is a decoder convention, not necessarily
+   * the physically straight leg — wire these to whatever the hardware does.
+   */
+  root?: string;
+  closed?: string;
+  thrown?: string;
 }
 
 export interface SensorDef {
@@ -54,15 +65,26 @@ export interface SensorDef {
 }
 
 export interface LightDef {
-  /** CS output id (matches `<Y id state>` and is set via `<Z id state>`). */
-  outputId: number;
   x: number;
   y: number;
   label?: string;
   /** EX-RAIL alias from myAlias.h, for reference / future grouping. */
   alias?: string;
-  /** SVG radius in px (default 6). */
+  /** SVG radius in px (default 7). */
   r?: number;
+  /**
+   * How the CS drives this light. Default `'output'`.
+   * - `'output'`: an EX-RAIL Output / VPIN — `outputId` required, set via
+   *   `<Z id state>`, state from `<Y id state>`.
+   * - `'turnout'`: a DCC accessory light declared as `TURNOUTL(...)` —
+   *   `turnoutId` required, switched via `<T id 0|1>`, state from `<H id state>`.
+   *   `on` is treated as THROWN (`<T id 1>`).
+   */
+  protocol?: 'output' | 'turnout';
+  /** Output / VPIN id — required when `protocol` is `'output'` (the default). */
+  outputId?: number;
+  /** Turnout id — required when `protocol` is `'turnout'`. */
+  turnoutId?: number;
 }
 
 export interface SectionDef {
