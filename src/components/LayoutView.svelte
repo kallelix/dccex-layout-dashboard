@@ -20,6 +20,13 @@
     return m;
   });
 
+  // Occupancy sensor (GBM) per section, so segments can render as occupied.
+  const gbmBySection = $derived.by(() => {
+    const m = new Map<number, number>();
+    for (const s of layout.sections) if (s.gbm !== undefined) m.set(s.id, s.gbm);
+    return m;
+  });
+
   let svgEl: SVGSVGElement | undefined = $state();
   let instance: SvgPanZoom.Instance | null = null;
 
@@ -71,7 +78,11 @@
     <g class="svg-pan-zoom_viewport">
       <g>
         {#each layout.segments as segment (segment.id)}
-          <TrackSegment {segment} leg={legMap.get(segment.id)} />
+          <TrackSegment
+            {segment}
+            leg={legMap.get(segment.id)}
+            gbm={segment.sectionId !== undefined ? gbmBySection.get(segment.sectionId) : undefined}
+          />
         {/each}
       </g>
       <g>

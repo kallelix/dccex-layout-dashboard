@@ -120,6 +120,11 @@ export interface SectionDef {
   label: string;
   /** Segment ids that make up this section, for highlight colouring. */
   segments: string[];
+  /**
+   * Occupancy sensor VPIN for this block (a GBM). When the CS broadcasts
+   * `<Q gbm>` / `<q gbm>`, the section's segments render as occupied.
+   */
+  gbm?: number;
 }
 
 export interface SequenceDef {

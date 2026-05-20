@@ -120,12 +120,16 @@ Ein Gebäude bündelt mehrere Lichter (Etagen/Räume) zu **einem** Element: eine
 {
   "id": 1,                       // EX-RAIL Section-ID (RESERVE/FREE Operand)
   "label": "Einfahrt",
-  "segments": ["S1", "S1a"]      // welche segments[].id zu dieser Section gehören
+  "segments": ["S1", "S1a"],     // welche segments[].id zu dieser Section gehören
+  "gbm": 167                     // optional — VPIN des Belegtmelders (GBM)
 }
 ```
 
 - **`id`** ist die Reservation-Slot-ID, die EX-RAIL `RESERVE(id)` / `FREE(id)` verwendet.
-- Optional, aber **nötig** für die gelbe Belegt-Färbung. Ohne Section-Definition reagiert das Layout nicht auf `<jR>`-Broadcasts.
+- **`id`** ist **nötig** für die Reservierungs-Färbung (in Lok-Farbe, via `<jS>`).
+- **`gbm`** verknüpft die Section mit einem Belegtmelder-VPIN. Sendet die CS `<Q gbm>` / `<q gbm>`, werden die Segmente als **belegt** dargestellt: **weißer Glow** um den Strich. Die drei Infokanäle liegen übereinander — Strichfarbe = Reservierung (Lok-Farbe), Glow = Belegung, Strichelung/Ausgrauen = Weichenstatus. Voraussetzung: Die CS broadcastet die GBM-Sensoren (siehe Hinweis unten).
+
+> **GBM-Broadcast:** EXRAIL-`ONSENSOR`-VPINs broadcasten standardmäßig **nicht**. Damit die GBM im Dashboard ankommen, muss in der CS `EXRAILSensor::check()` bei Änderung `CommandDistributor::broadcastSensor(pin, active)` aufrufen (sendet `<Q>`/`<q>`).
 
 ## `sequences` — EX-RAIL Routen / Sequenzen
 

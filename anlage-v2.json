@@ -92,18 +92,18 @@
   ],
 
   "sections": [
-    { "id": 1,  "label": "B1 Hauptstrecke", "segments": ["b1"] },
-    { "id": 2,  "label": "B2 HBhf",         "segments": ["b2_west", "b2_east"] },
-    { "id": 4,  "label": "B4",              "segments": ["b4"] },
-    { "id": 7,  "label": "B7 (Tunnel)",     "segments": ["w11_w10link", "b8a", "b8b"] },
-    { "id": 8,  "label": "B8 (Tunnel)",     "segments": ["b7a", "b7b"] },
-    { "id": 3,  "label": "B3",              "segments": ["b3"] },
-    { "id": 5,  "label": "B5",              "segments": ["b5"] },
-    { "id": 6,  "label": "B6 (Tunnel)",     "segments": ["b6"] },
-    { "id": 11, "label": "B11",             "segments": ["b11_east", "b11_west"] },
-    { "id": 12, "label": "B12",             "segments": ["b12"] },
-    { "id": 13, "label": "B13 Auffahrt Hill", "segments": ["b13"] },
-    { "id": 14, "label": "B14 Bhf Hill",    "segments": ["b14"] }
+    { "id": 1,  "label": "B1 Hauptstrecke", "segments": ["b1"], "gbm": 179 },
+    { "id": 2,  "label": "B2 HBhf",         "segments": ["b2_west", "b2_east"], "gbm": 165 },
+    { "id": 4,  "label": "B4",              "segments": ["b4"], "gbm": 168 },
+    { "id": 7,  "label": "B7 (Tunnel)",     "segments": ["w11_w10link", "b8a", "b8b"], "gbm": 169 },
+    { "id": 8,  "label": "B8 (Tunnel)",     "segments": ["b7a", "b7b"], "gbm": 171 },
+    { "id": 3,  "label": "B3",              "segments": ["b3"], "gbm": 164 },
+    { "id": 5,  "label": "B5",              "segments": ["b5"], "gbm": 166 },
+    { "id": 6,  "label": "B6 (Tunnel)",     "segments": ["b6"], "gbm": 167 },
+    { "id": 11, "label": "B11",             "segments": ["b11_east", "b11_west"], "gbm": 177 },
+    { "id": 12, "label": "B12",             "segments": ["b12"], "gbm": 176 },
+    { "id": 13, "label": "B13 Auffahrt Hill", "segments": ["b13"], "gbm": 175 },
+    { "id": 14, "label": "B14 Bhf Hill",    "segments": ["b14"], "gbm": 174 }
   ],
 
   "sequences": []
