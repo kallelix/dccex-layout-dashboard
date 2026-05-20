@@ -47,10 +47,15 @@
   const sourceLabel = $derived(
     layoutStore.source === 'example'
       ? 'Beispiel'
-      : layoutStore.source === 'storage'
-        ? `gespeichert · ${layoutStore.fileName ?? 'unbenannt'}`
-        : layoutStore.fileName ?? 'Datei'
+      : layoutStore.source === 'server'
+        ? 'Server'
+        : layoutStore.source === 'storage'
+          ? `gespeichert · ${layoutStore.fileName ?? 'unbenannt'}`
+          : layoutStore.fileName ?? 'Datei'
   );
+
+  // Only a user-loaded layout (drag&drop / file) can be reset; example/server are defaults.
+  const canReset = $derived(layoutStore.source === 'storage' || layoutStore.source === 'file');
 </script>
 
 <section class="flex flex-col gap-2">
@@ -61,11 +66,11 @@
       <span class="font-medium text-slate-100">{layoutStore.current.name}</span>
       <span class="text-slate-500">{sourceLabel}</span>
     </div>
-    {#if layoutStore.source !== 'example'}
+    {#if canReset}
       <button
         class="rounded bg-slate-700 hover:bg-slate-600 px-2 py-1 text-xs"
         onclick={reset}
-        title="Beispiellayout zurücksetzen"
+        title="Eigenes Layout verwerfen (zurück zum Server-/Beispiel-Layout)"
       >
         Reset
       </button>

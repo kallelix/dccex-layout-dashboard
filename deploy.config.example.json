@@ -1,0 +1,7 @@
+{
+  "host": "192.168.178.50",
+  "user": "root",
+  "path": "/var/www/dashboard",
+  "port": 22,
+  "layout": "anlage-v2.json"
+}
